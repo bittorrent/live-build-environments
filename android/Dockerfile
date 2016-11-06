@@ -1,7 +1,15 @@
 FROM ubuntu:16.04
 
 RUN apt-get update && \
-    apt-get install -y wget unzip python-pip openjdk-9-jdk-headless && \
+    apt-get install -y \
+        git \
+        openjdk-9-jdk-headless \
+        pkg-config \
+        python-pip \
+        unzip \
+        vim \
+        wget \
+        && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
