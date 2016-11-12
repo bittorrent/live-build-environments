@@ -1,0 +1,34 @@
+language: generic
+sudo: required
+before_script:
+    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+
+matrix:
+    include:
+        - services:
+            - docker
+          env:
+            - IMAGE=android
+            - NDK_API_LEVEL=17
+            - NDK_ARCHITECTURE=arm
+            - SDK_API_LEVEL=22
+          script:
+            - set -e
+            - export DOCKER_TAG=$IMAGE-n$NDK_API_LEVEL-s$SDK_API_LEVEL-$NDK_ARCHITECTURE-$(echo $TRAVIS_COMMIT | cut -c 1-7)
+            - >
+              docker build
+              -t bittorrent/live-build-environments:$DOCKER_TAG
+              --build-arg NDK_API_LEVEL=$NDK_API_LEVEL
+              --build-arg NDK_ARCHITECTURE=$NDK_ARCHITECTURE
+              --build-arg SDK_API_LEVEL=$SDK_API_LEVEL
+              $IMAGE
+            - docker push bittorrent/live-build-environments:$DOCKER_TAG
+        - services:
+            - docker
+          env:
+            - IMAGE=linux
+          script:
+            - set -e
+            - export DOCKER_TAG=$IMAGE-$(echo $TRAVIS_COMMIT | cut -c 1-7)
+            - docker build -t bittorrent/live-build-environments:$DOCKER_TAG $IMAGE
+            - docker push bittorrent/live-build-environments:$DOCKER_TAG

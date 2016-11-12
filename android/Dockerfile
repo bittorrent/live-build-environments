@@ -19,8 +19,8 @@ WORKDIR /opt
 ARG SDK_VERSION=r24.4.1
 ARG BUILD_TOOLS_VERSION=25.0.0
 
-RUN wget https://dl-ssl.google.com/android/android-sdk_$SDK_VERSION-linux.tgz && \
-    tar -xvzf ./android-sdk_$SDK_VERSION-linux.tgz && \
+RUN wget https://dl-ssl.google.com/android/android-sdk_$SDK_VERSION-linux.tgz -q && \
+    tar -xzf ./android-sdk_$SDK_VERSION-linux.tgz && \
     rm ./android-sdk_$SDK_VERSION-linux.tgz && \
     mv ./android-sdk-linux/tools ./android-sdk-linux/temp-tools && \
     ln -s /opt/android-sdk-linux/temp-tools /opt/android-sdk-linux/tools && \
@@ -37,8 +37,8 @@ ARG NDK_API_LEVEL=17
 ARG NDK_ARCHITECTURE=arm
 ARG NDK_VERSION=r13b
 
-RUN wget https://dl.google.com/android/repository/android-ndk-$NDK_VERSION-linux-x86_64.zip && \
-    unzip ./android-ndk-$NDK_VERSION-linux-x86_64.zip && \
+RUN wget https://dl.google.com/android/repository/android-ndk-$NDK_VERSION-linux-x86_64.zip -q && \
+    unzip ./android-ndk-$NDK_VERSION-linux-x86_64.zip >/dev/null && \
     rm ./android-ndk-$NDK_VERSION-linux-x86_64.zip && \
     cd ./android-ndk-$NDK_VERSION && \
     find ./platforms/* -maxdepth 0 -not -name android-$NDK_API_LEVEL -print0 | xargs -0 rm -r && \
