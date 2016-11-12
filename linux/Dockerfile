@@ -2,6 +2,15 @@ FROM ubuntu:14.04
 
 RUN apt-get update && \
     apt-get install -y \
+        software-properties-common \
+        python-software-properties \
+        && \
+    add-apt-repository ppa:git-core/ppa && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    apt-get install -y \
         git \
         pkg-config \
         python-pip \
