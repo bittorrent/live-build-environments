@@ -48,10 +48,6 @@ RUN wget https://dl.google.com/android/repository/android-ndk-$NDK_VERSION-linux
 ENV ANDROID_NDK_HOME=/opt/android-ndk-$NDK_VERSION
 ENV PATH=$PATH:$ANDROID_NDK_HOME
 
-# in ndk r13, the include directory moved and the experimental android plugin hasn't been updated yet
-RUN mkdir $ANDROID_NDK_HOME/sources/cxx-stl/llvm-libc++/libcxx && \
-    ln -s $ANDROID_NDK_HOME/sources/cxx-stl/llvm-libc++/include $ANDROID_NDK_HOME/sources/cxx-stl/llvm-libc++/libcxx/include
-
 RUN $ANDROID_NDK_HOME/build/tools/make_standalone_toolchain.py \
     --arch $NDK_ARCHITECTURE --api $NDK_API_LEVEL --stl libc++ --install-dir ./android-$NDK_API_LEVEL-$NDK_ARCHITECTURE-toolchain
 ENV ANDROID_TOOLCHAIN=/opt/android-$NDK_API_LEVEL-$NDK_ARCHITECTURE-toolchain
