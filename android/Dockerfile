@@ -37,12 +37,14 @@ ARG NDK_API_LEVEL=17
 ARG NDK_ARCHITECTURE=arm
 ARG NDK_VERSION=r13b
 
+# XXX Compilation fails with gradle-experimental:0.8.2 when mipsel-linux-android-4.9 or x86-4.9 is deleted
 RUN wget https://dl.google.com/android/repository/android-ndk-$NDK_VERSION-linux-x86_64.zip -q && \
     unzip ./android-ndk-$NDK_VERSION-linux-x86_64.zip >/dev/null && \
     rm ./android-ndk-$NDK_VERSION-linux-x86_64.zip && \
     cd ./android-ndk-$NDK_VERSION && \
     find ./platforms/* -maxdepth 0 -not -name android-$NDK_API_LEVEL -print0 | xargs -0 rm -r && \
     find ./toolchains/* -maxdepth 0 -not -name llvm -not -name \
+        mipsel-linux-android-4.9 -not -name x86-4.9 -not -name \
         $(ANDROID_NDK_ROOT=. . build/tools/dev-defaults.sh && get_default_toolchain_name_for_arch $NDK_ARCHITECTURE) -print0 | xargs -0 rm -r
 
 ENV ANDROID_NDK_HOME=/opt/android-ndk-$NDK_VERSION
@@ -52,6 +54,6 @@ RUN $ANDROID_NDK_HOME/build/tools/make_standalone_toolchain.py \
     --arch $NDK_ARCHITECTURE --api $NDK_API_LEVEL --stl libc++ --install-dir ./android-$NDK_API_LEVEL-$NDK_ARCHITECTURE-toolchain
 ENV ANDROID_TOOLCHAIN=/opt/android-$NDK_API_LEVEL-$NDK_ARCHITECTURE-toolchain
 
-ARG SDK_API_LEVEL=22
+ARG SDK_API_LEVEL=25
 
 RUN echo y | android update sdk --no-ui --filter android-$SDK_API_LEVEL
