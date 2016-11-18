@@ -11,7 +11,7 @@ matrix:
             - IMAGE=android
             - NDK_API_LEVEL=17
             - NDK_ARCHITECTURE=arm
-            - SDK_API_LEVEL=22
+            - SDK_API_LEVEL=25
           script:
             - set -e
             - export DOCKER_TAG=$IMAGE-n$NDK_API_LEVEL-s$SDK_API_LEVEL-$NDK_ARCHITECTURE-$(echo $TRAVIS_COMMIT | cut -c 1-7)
