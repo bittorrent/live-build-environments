@@ -35,6 +35,13 @@ RUN apt-get update && \
 
 RUN pip install jinja2 pyyaml colorama
 
+# great program for modifying things like runpaths for executables and removing
+# unnecessary dynamic libraries. <2mb
+RUN curl -o patchelf-0.9.tar.bz2 https://nixos.org/releases/patchelf/patchelf-0.9/patchelf-0.9.tar.bz2 && \
+    tar -xf patchelf-0.9.tar.bz2 && \
+    ( cd patchelf-0.9 && ./configure && make && make install ) && \
+    rm -rf patchelf-0.9 patchelf-0.9.tar.bz2
+
 # environment settings; not likely to change, but very fast with small layers
 RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang-3.8 100 && \
     update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-3.8 100 && \
