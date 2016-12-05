@@ -20,6 +20,7 @@ RUN apt-get update && \
     # related build tools, but not necessarily
         pkg-config \
         python-pip \
+        python3-pip \
         cmake \
         curl \
     # Live specifics
@@ -33,7 +34,8 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip install jinja2 pyyaml colorama
+RUN pip2 install jinja2 pyyaml colorama
+RUN pip3 install jinja2 pyyaml colorama
 
 # great program for modifying things like runpaths for executables and removing
 # unnecessary dynamic libraries. <2mb
