@@ -27,3 +27,12 @@ Pick a tag from [DockerHub](https://hub.docker.com/r/bittorrent/live-build-envir
 ```
 docker run --rm bittorrent/live-build-environments:$DOCKER_TAG $command
 ```
+
+# Building a Mac image
+
+- Download `Install macOS Sierra.app` from the app store
+- Run `./macos/dev/prepare_iso` to generate a dmg (example: `OSX_InstallESD_10.12.1_16B2659.dmg`)
+  - Alternatively, place the existing DMG in `macos/dmg`
+- Run `./macos/build.sh`
+
+The output should then be in `macos/box`
