@@ -17,7 +17,7 @@ RUN apt-get update && \
 WORKDIR /opt
 
 ARG SDK_VERSION=r24.4.1
-ARG BUILD_TOOLS_VERSION=25.0.0
+ARG BUILD_TOOLS_VERSION=25.0.2
 
 RUN wget https://dl-ssl.google.com/android/android-sdk_$SDK_VERSION-linux.tgz -q && \
     tar -xzf ./android-sdk_$SDK_VERSION-linux.tgz && \
