@@ -33,7 +33,7 @@ ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 
 RUN pip install jinja2 pyyaml colorama
 
-ARG NDK_API_LEVEL=18
+ARG NDK_API_LEVEL=21
 ARG NDK_ARCHITECTURE=arm
 ARG NDK_VERSION=r13b
 

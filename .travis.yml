@@ -12,7 +12,7 @@ matrix:
             - docker
           env:
             - IMAGE=android
-            - NDK_API_LEVEL=18
+            - NDK_API_LEVEL=21
             - NDK_ARCHITECTURE=arm
             - SDK_API_LEVEL=25
           script:
