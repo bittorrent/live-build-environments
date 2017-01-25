@@ -37,15 +37,12 @@ ARG NDK_API_LEVEL=21
 ARG NDK_ARCHITECTURE=arm
 ARG NDK_VERSION=r13b
 
-# XXX Compilation fails with gradle-experimental:0.8.2 when mipsel-linux-android-4.9 or x86-4.9 is deleted
+# XXX Compilation fails when unused toolchains are removed
 RUN wget https://dl.google.com/android/repository/android-ndk-$NDK_VERSION-linux-x86_64.zip -q && \
     unzip ./android-ndk-$NDK_VERSION-linux-x86_64.zip >/dev/null && \
     rm ./android-ndk-$NDK_VERSION-linux-x86_64.zip && \
     cd ./android-ndk-$NDK_VERSION && \
-    find ./platforms/* -maxdepth 0 -not -name android-$NDK_API_LEVEL -print0 | xargs -0 rm -r && \
-    find ./toolchains/* -maxdepth 0 -not -name llvm -not -name \
-        mipsel-linux-android-4.9 -not -name x86-4.9 -not -name \
-        $(ANDROID_NDK_ROOT=. . build/tools/dev-defaults.sh && get_default_toolchain_name_for_arch $NDK_ARCHITECTURE) -print0 | xargs -0 rm -r
+    find ./platforms/* -maxdepth 0 -not -name android-$NDK_API_LEVEL -print0 | xargs -0 rm -r
 
 ENV ANDROID_NDK_HOME=/opt/android-ndk-$NDK_VERSION
 ENV PATH=$PATH:$ANDROID_NDK_HOME
