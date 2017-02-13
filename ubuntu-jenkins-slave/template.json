@@ -1,11 +1,13 @@
 {
     "variables": {
         "subnet_id": "",
-        "vpc_id": ""
+        "vpc_id": "",
+        "aws_profile": "{{env `AWS_PROFILE`}}"
     },
     "builders": [{
         "type": "amazon-ebs",
         "region": "us-east-1",
+        "profile": "{{ user `aws_profile`}}",
         "vpc_id": "{{user `vpc_id`}}",
         "subnet_id": "{{user `subnet_id`}}",
         "source_ami": "ami-40d28157",
@@ -20,7 +22,7 @@
             "sudo apt-get update",
             "sudo apt-get install -y ca-certificates-java openjdk-8-jre-headless docker.io",
             "sudo usermod -aG docker ubuntu",
-            "curl -L https://github.com/docker/compose/releases/download/1.9.0/run.sh > /tmp/docker-compose",
+            "curl -L https://github.com/docker/compose/releases/download/1.11.1/run.sh > /tmp/docker-compose",
             "sudo mv /tmp/docker-compose /usr/local/bin/docker-compose",
             "sudo chmod +x /usr/local/bin/docker-compose"
         ]
