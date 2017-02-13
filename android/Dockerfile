@@ -33,7 +33,7 @@ RUN wget https://dl-ssl.google.com/android/android-sdk_$SDK_VERSION-linux.tgz -q
     update-sdk && \
     rm -rf ./android-sdk-linux/temp ./android-sdk-linux/temp-tools
 
-ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools/templates/gradle/wrapper
 
 RUN pip install jinja2 pyyaml colorama
 
