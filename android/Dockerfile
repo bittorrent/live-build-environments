@@ -20,9 +20,6 @@ ARG SDK_VERSION=r24.4.1
 ARG SDK_API_LEVEL=25
 ARG BUILD_TOOLS_VERSION=25.0.2
 
-RUN printf "#/bin/sh\necho y | \$ANDROID_HOME/tools/android update sdk --no-ui --filter tool,platform-tool,build-tools-$BUILD_TOOLS_VERSION,android-$SDK_API_LEVEL,extra-android-m2repository" > /usr/local/bin/update-sdk && \
-    chmod +x /usr/local/bin/update-sdk
-
 ENV ANDROID_HOME=/opt/android-sdk-linux
 
 RUN wget https://dl-ssl.google.com/android/android-sdk_$SDK_VERSION-linux.tgz -q && \
@@ -30,7 +27,7 @@ RUN wget https://dl-ssl.google.com/android/android-sdk_$SDK_VERSION-linux.tgz -q
     rm ./android-sdk_$SDK_VERSION-linux.tgz && \
     mv ./android-sdk-linux/tools ./android-sdk-linux/temp-tools && \
     ln -s /opt/android-sdk-linux/temp-tools /opt/android-sdk-linux/tools && \
-    update-sdk && \
+    echo y | $ANDROID_HOME/tools/android update sdk --no-ui --filter tool,platform-tool,build-tools-$BUILD_TOOLS_VERSION,android-$SDK_API_LEVEL,extra-android-m2repository && \
     rm -rf ./android-sdk-linux/temp ./android-sdk-linux/temp-tools
 
 ENV PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/tools/templates/gradle/wrapper
