@@ -29,6 +29,20 @@ matrix:
         - services:
             - docker
           env:
+            - IMAGE=android-sdk
+            - SDK_API_LEVEL=25
+          script:
+            - set -e
+            - export DOCKER_TAG=$IMAGE-s$SDK_API_LEVEL-$(echo $TRAVIS_COMMIT | cut -c 1-7)
+            - >
+              docker build
+              -t bittorrent/live-build-environments:$DOCKER_TAG
+              --build-arg SDK_API_LEVEL=$SDK_API_LEVEL
+              $IMAGE
+            - docker push bittorrent/live-build-environments:$DOCKER_TAG
+        - services:
+            - docker
+          env:
             - IMAGE=linux
           script:
             - set -e
