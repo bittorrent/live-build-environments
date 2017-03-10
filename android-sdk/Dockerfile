@@ -12,7 +12,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-RUN pip install colorama git+https://github.com/bittorrent/simon.git@master#egg=simon
+RUN pip install awscli git+https://github.com/bittorrent/simon.git@master#egg=simon
 
 RUN gem install fastlane
 
