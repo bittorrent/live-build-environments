@@ -49,3 +49,12 @@ matrix:
             - export DOCKER_TAG=$IMAGE-$(echo $TRAVIS_COMMIT | cut -c 1-7)
             - docker build -t bittorrent/live-build-environments:$DOCKER_TAG $IMAGE
             - docker push bittorrent/live-build-environments:$DOCKER_TAG
+        - services:
+            - docker
+          env:
+            - IMAGE=golang
+          script:
+            - set -e
+            - export DOCKER_TAG=$IMAGE-$(echo $TRAVIS_COMMIT | cut -c 1-7)
+            - docker build -t bittorrent/live-build-environments:$DOCKER_TAG $IMAGE
+            - docker push bittorrent/live-build-environments:$DOCKER_TAG
