@@ -29,15 +29,15 @@ matrix:
         - services:
             - docker
           env:
-            - IMAGE=android-sdk
-            - SDK_API_LEVEL=25
+            - IMAGE=fastlane
+            - FASTLANE_VERSION=2.23.0
           script:
             - set -e
-            - export DOCKER_TAG=$IMAGE-s$SDK_API_LEVEL-$(echo $TRAVIS_COMMIT | cut -c 1-7)
+            - export DOCKER_TAG=$IMAGE-v$FASTLANE_VERSION-$(echo $TRAVIS_COMMIT | cut -c 1-7)
             - >
               docker build
               -t bittorrent/live-build-environments:$DOCKER_TAG
-              --build-arg SDK_API_LEVEL=$SDK_API_LEVEL
+              --build-arg FASTLANE_VERSION=$FASTLANE_VERSION
               $IMAGE
             - docker push bittorrent/live-build-environments:$DOCKER_TAG
         - services:
