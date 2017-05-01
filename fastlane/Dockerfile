@@ -1,6 +1,6 @@
 FROM ruby:2.2
 
-ARG FASTLANE_VERSION=2.23.0
+ARG FASTLANE_VERSION=2.28.7
 
 RUN apt-get -qq update && \
     apt-get -qq install -y less && \
