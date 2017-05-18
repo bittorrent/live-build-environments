@@ -1,5 +1,8 @@
 FROM ubuntu:14.04
 
+COPY llvm-snapshot.gpg.key /
+RUN cat /llvm-snapshot.gpg.key | apt-key add -
+
 RUN apt-get update && \
     # Ubuntu 14.04 doesn't have a recent version of git available, so add the
     # official ppa and update it. Be sure to remove the tools when done. This
@@ -8,21 +11,26 @@ RUN apt-get update && \
         software-properties-common \
         python-software-properties \
         && \
-    add-apt-repository ppa:git-core/ppa && \
-    apt-get update && \
+    add-apt-repository ppa:git-core/ppa \
+        && \
+    # external repo for clang 3.9
+    apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main" \
+        && \
+    apt-get update \
+        && \
     apt-get install -y \
     # updated git
         git \
-    # build tools, clang 3.8, and libc++
+    # build tools, clang 3.9, and libc++
         linux-tools-common \
-        clang-3.8 \
+        clang-3.9 \
         libc++-dev \
     # related build tools, but not necessarily
+        curl \
         pkg-config \
         python-pip \
         python3-pip \
         cmake \
-        curl \
     # Live specifics
         libz-dev \
         libgl1-mesa-dev \
@@ -45,12 +53,12 @@ RUN curl -o patchelf-0.9.tar.bz2 https://nixos.org/releases/patchelf/patchelf-0.
     rm -rf patchelf-0.9 patchelf-0.9.tar.bz2
 
 # environment settings; not likely to change, but very fast with small layers
-RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang-3.8 100 && \
-    update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-3.8 100 && \
-    update-alternatives --install /usr/bin/clang clang /usr/bin/clang-3.8 100 && \
-    update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-3.8 100
+RUN update-alternatives --install /usr/bin/cc cc /usr/bin/clang-3.9 100 && \
+    update-alternatives --install /usr/bin/c++ c++ /usr/bin/clang++-3.9 100 && \
+    update-alternatives --install /usr/bin/clang clang /usr/bin/clang-3.9 100 && \
+    update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-3.9 100
 
-ENV CC clang-3.8
-ENV CXX clang++-3.8
+ENV CC clang-3.9
+ENV CXX clang++-3.9
 ENV CXXFLAGS -stdlib=libc++
 ENV LDFLAGS -lc++
